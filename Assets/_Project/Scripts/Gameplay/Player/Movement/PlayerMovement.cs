@@ -27,20 +27,24 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float groundDrag = 6f;
     [SerializeField] float airDrag = 2f;
 
-    float horizontalMovement;
-    float verticalMovement;
-
     [Header("Ground Detection")]
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundMask;
     [SerializeField] float groundDistance = 0.1f;
     public bool IsGrounded { get; private set; }
 
+    [Header("Wind Particles")]
+    [SerializeField] ParticleSystem windStripesParticles;
+    [SerializeField] float maxEmissionRate = 50f;
+    [SerializeField] float emissionSmoothingFactor = 5f;
+
+    float horizontalMovement;
+    float verticalMovement;
+
     Vector3 moveDirection;
     Vector3 slopeMoveDirection;
 
     Rigidbody rb;
-
     RaycastHit slopeHit;
 
     private bool OnSlope()
@@ -51,10 +55,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
         }
         return false;
     }
@@ -63,6 +63,16 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        if (windStripesParticles != null)
+        {
+            var emission = windStripesParticles.emission;
+            emission.rateOverTime = 0f;
+        }
+        else
+        {
+            Debug.LogWarning("Wind Stripes Particle System not assigned.", this);
+        }
     }
 
     private void Update()
@@ -72,13 +82,17 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         ControlDrag();
         ControlSpeed();
+        ControlWindStripes();
 
         if (Input.GetKeyDown(jumpKey) && IsGrounded)
         {
             Jump();
         }
 
-        slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal);
+        if (OnSlope())
+        {
+            slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal);
+        }
     }
 
     void MyInput()
@@ -87,38 +101,62 @@ public class PlayerMovement : MonoBehaviour
         verticalMovement = Input.GetAxisRaw("Vertical");
 
         moveDirection = orientation.forward * verticalMovement + orientation.right * horizontalMovement;
+        moveDirection.Normalize();
     }
 
     void Jump()
     {
         if (IsGrounded)
         {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         }
     }
 
     void ControlSpeed()
     {
-        if (Input.GetKey(sprintKey) && IsGrounded)
-        {
-            moveSpeed = Mathf.Lerp(moveSpeed, sprintSpeed, acceleration * Time.deltaTime);
-        }
-        else
-        {
-            moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, acceleration * Time.deltaTime);
-        }
+        float targetSpeed = Input.GetKey(sprintKey) && IsGrounded ? sprintSpeed : walkSpeed;
+        moveSpeed = Mathf.Lerp(moveSpeed, targetSpeed, acceleration * Time.deltaTime);
     }
 
     void ControlDrag()
     {
-        if (IsGrounded)
+        rb.linearDamping = IsGrounded ? groundDrag : airDrag;
+    }
+
+    void ControlWindStripes()
+    {
+        if (windStripesParticles == null) return;
+
+        float currentHorizontalSpeed = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z).magnitude;
+
+        float speedRatio = 0f;
+        float speedRange = sprintSpeed - walkSpeed;
+
+        if (speedRange > 0.01f)
         {
-            rb.linearDamping = groundDrag;
+            speedRatio = Mathf.Clamp01((currentHorizontalSpeed - walkSpeed) / speedRange);
         }
-        else
+        else if (currentHorizontalSpeed >= sprintSpeed)
         {
-            rb.linearDamping = airDrag;
+            speedRatio = 1f;
+        }
+
+        float targetEmission = speedRatio * maxEmissionRate;
+
+        var emission = windStripesParticles.emission;
+        float currentEmission = emission.rateOverTime.constant;
+
+        emission.rateOverTime = Mathf.Lerp(currentEmission, targetEmission, Time.deltaTime * emissionSmoothingFactor);
+
+        if (targetEmission > 0.1f && !windStripesParticles.isPlaying)
+        {
+            windStripesParticles.Play();
+        }
+        else if (targetEmission <= 0.1f && windStripesParticles.isPlaying)
+        {
+
+            windStripesParticles.Stop();
         }
     }
 
