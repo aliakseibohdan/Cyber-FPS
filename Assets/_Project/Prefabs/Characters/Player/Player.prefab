@@ -188,7 +188,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4655463232989534060}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -600,7 +600,7 @@ MonoBehaviour:
   orientation: {fileID: 2025425050532701241}
   moveSpeed: 6
   airMultiplier: 0.4
-  walkSpeed: 6
+  walkSpeed: 8
   sprintSpeed: 15
   acceleration: 10
   jumpForce: 500
@@ -624,7 +624,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 8
-  groundDistance: 0.1
+  groundDistance: 0.2
   windStripesParticles: {fileID: 1332851355658080000}
   maxEmissionRate: 50
   emissionSmoothingFactor: 5
@@ -640,7 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1828fc8f3439f54889628ca589692fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTiltAngle: 3
+  maxTiltAngle: 5
   tiltSpeed: 5
   fovNormal: 80
   fovForwardMovement: 75

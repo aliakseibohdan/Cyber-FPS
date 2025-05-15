@@ -1133,14 +1133,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1735726093}
     m_Modifications:
-    - target: {fileID: 509497961721539385, guid: eaa9de917218c9341834c616db1f3879, type: 3}
-      propertyPath: maxTiltAngle
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5196032651423083289, guid: eaa9de917218c9341834c616db1f3879, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5393851383323233609, guid: eaa9de917218c9341834c616db1f3879, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1184,14 +1176,6 @@ PrefabInstance:
     - target: {fileID: 7163659462075343720, guid: eaa9de917218c9341834c616db1f3879, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7605580049968585668, guid: eaa9de917218c9341834c616db1f3879, type: 3}
-      propertyPath: walkSpeed
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7605580049968585668, guid: eaa9de917218c9341834c616db1f3879, type: 3}
-      propertyPath: groundDistance
-      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
