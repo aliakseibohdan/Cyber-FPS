@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 9514
+  controlID: 31567
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 9457
+  controlID: 31510
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 50}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 9433
+  controlID: 31486
   draggingID: 0
 --- !u!114 &5
 MonoBehaviour:
@@ -199,8 +199,8 @@ MonoBehaviour:
     y: 0
     width: 343
     height: 623
-  m_MinSize: {x: 201, y: 226}
-  m_MaxSize: {x: 4001, y: 4026}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -247,7 +247,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: f8faffff1afbffff1cfbffff1efbffff4eb50000
+      m_ExpandedIDs: 0efbffff1cfbffff1efbffff36b500004eb50000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -867,9 +867,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: -2.4033442, y: 0.8103677, z: 1.4363189}
+    m_Target: {x: 3.2986207, y: -0.67947364, z: 0.6527962}
     speed: 2
-    m_Value: {x: -2.4033442, y: 0.8103677, z: 1.4363189}
+    m_Value: {x: 3.2986207, y: -0.67947364, z: 0.6527962}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -915,9 +915,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.11195857, y: -0.8333612, z: 0.18312418, w: -0.50945574}
+    m_Target: {x: 0.07074576, y: -0.766348, z: 0.085646145, w: 0.6328612}
     speed: 2
-    m_Value: {x: -0.111952685, y: -0.8333174, z: 0.18311456, w: -0.509429}
+    m_Value: {x: 0.07074071, y: -0.7662933, z: 0.08564003, w: 0.632816}
   m_Size:
     m_Target: 0.8660254
     speed: 2
@@ -1664,7 +1664,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -1294
+  m_LastSelectedObjectID: -1254
 --- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1736,7 +1736,7 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1254
-  m_LastVerticalScrollValue: 864
+  m_LastVerticalScrollValue: 676
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:
