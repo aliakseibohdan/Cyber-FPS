@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     private CapsuleCollider playerCollider;
 
-    [SerializeField] Transform orientation;
+    public Transform orientation;
 
     [Header("Movement")]
     [SerializeField] float moveSpeed = 8f;
