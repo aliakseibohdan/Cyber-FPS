@@ -502,6 +502,17 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &306688185 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7605580049968585668, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+  m_PrefabInstance: {fileID: 1406308511949943401}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd19cf45f8c15e1428e1593ce67489ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,6 +778,11 @@ Transform:
   - {fileID: 832575519}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1007029803 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5272786705185295436, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+  m_PrefabInstance: {fileID: 1406308511949943401}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1184749549 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5393851383323233609, guid: eaa9de917218c9341834c616db1f3879, type: 3}
@@ -1093,6 +1109,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!20 &2059197639 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6269621129005810824, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+  m_PrefabInstance: {fileID: 1406308511949943401}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2112937003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1133,6 +1154,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1735726093}
     m_Modifications:
+    - target: {fileID: 509497961721539385, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 2059197639}
+    - target: {fileID: 509497961721539385, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: fovChangeSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 509497961721539385, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 306688185}
+    - target: {fileID: 509497961721539385, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: fovForwardMovement
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 509497961721539385, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: fovBackwardMovement
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625406121632390050, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: m_Mass
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272786705185295436, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 5393851383323233609, guid: eaa9de917218c9341834c616db1f3879, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1173,9 +1222,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6062645952401103844, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: wallRunJumpForce
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 7163659462075343720, guid: eaa9de917218c9341834c616db1f3879, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605580049968585668, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: jumpForce
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605580049968585668, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: playerCameraTransform
+      value: 
+      objectReference: {fileID: 1007029803}
+    - target: {fileID: 7605580049968585668, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: standingCameraPosition.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605580049968585668, guid: eaa9de917218c9341834c616db1f3879, type: 3}
+      propertyPath: crouchingCameraPosition.y
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

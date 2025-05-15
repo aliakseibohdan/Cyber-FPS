@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private CapsuleCollider playerCollider;
     private readonly float playerHeight = 2f;
 
     [SerializeField] Transform orientation;
@@ -19,9 +20,27 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jumping")]
     public float jumpForce = 14f;
 
+    [Header("Crouching")]
+    [SerializeField] float crouchSpeed = 2f;
+    [SerializeField] float crouchHeight = 1f;
+    [SerializeField] float standingHeight = 2f;
+    [SerializeField] float crouchTransitionSpeed = 10f;
+    [SerializeField] Transform playerCameraTransform;
+    [SerializeField] Vector3 standingCameraPosition;
+    [SerializeField] Vector3 crouchingCameraPosition;
+    private bool isCrouching = false;
+
+    [Header("Sliding")]
+    [SerializeField] float slideForce = 500f;
+    [SerializeField] float slideDuration = 0.75f;
+    [SerializeField] float slideJumpBoostMultiplier = 1.5f;
+    private bool isSliding = false;
+    private float slideTimer;
+
     [Header("Keybinds")]
     [SerializeField] KeyCode jumpKey = KeyCode.Space;
     [SerializeField] KeyCode sprintKey = KeyCode.LeftShift;
+    [SerializeField] KeyCode crouchKey = KeyCode.C;
 
     [Header("Drag")]
     [SerializeField] float groundDrag = 6f;
@@ -64,6 +83,13 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
+        playerCollider = GetComponentInChildren<CapsuleCollider>();
+        standingHeight = playerCollider.height;
+        standingCameraPosition = playerCameraTransform.localPosition;
+        crouchingCameraPosition = new Vector3(playerCameraTransform.localPosition.x,
+                                              standingCameraPosition.y - (standingHeight - crouchHeight),
+                                              playerCameraTransform.localPosition.z);
+
         if (windStripesParticles != null)
         {
             var emission = windStripesParticles.emission;
@@ -83,10 +109,19 @@ public class PlayerMovement : MonoBehaviour
         ControlDrag();
         ControlSpeed();
         ControlWindStripes();
+        HandleCrouchInput();
 
         if (Input.GetKeyDown(jumpKey) && IsGrounded)
         {
             Jump();
+        }
+
+        if (isCrouching && Input.GetKey(sprintKey) && !isSliding)
+        {
+            if (!Physics.Raycast(transform.position, Vector3.up, standingHeight - playerCollider.height + 0.1f))
+            {
+                isCrouching = false;
+            }
         }
 
         if (OnSlope())
@@ -109,7 +144,13 @@ public class PlayerMovement : MonoBehaviour
         if (IsGrounded)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            float currentJumpForce = jumpForce;
+            if (isSliding)
+            {
+                currentJumpForce *= slideJumpBoostMultiplier;
+                StopSlide();
+            }
+            rb.AddForce(transform.up * currentJumpForce, ForceMode.Impulse);
         }
     }
 
@@ -178,6 +219,81 @@ public class PlayerMovement : MonoBehaviour
         else if (!IsGrounded)
         {
             rb.AddForce(airMultiplier * movementMultiplier * moveSpeed * moveDirection.normalized, ForceMode.Acceleration);
+        }
+    }
+
+    void HandleCrouchInput()
+    {
+        if (Input.GetKeyDown(crouchKey))
+        {
+            if (isCrouching)
+            {
+                if (!Physics.Raycast(transform.position, Vector3.up, standingHeight - crouchHeight + 0.1f))
+                {
+                    isCrouching = false;
+                }
+            }
+            else
+            {
+                bool isSprinting = Input.GetKey(sprintKey);
+                if (isSprinting)
+                {
+                    StartSlide();
+                }
+                else
+                {
+                    isCrouching = true;
+                    ApplyCrouchState();
+                }
+            }
+        }
+    }
+
+    void ApplyCrouchState()
+    {
+        float targetHeight = isCrouching ? crouchHeight : standingHeight;
+        Vector3 targetCameraPos = isCrouching ? crouchingCameraPosition : standingCameraPosition;
+
+        playerCollider.height = Mathf.Lerp(playerCollider.height, targetHeight, Time.deltaTime * crouchTransitionSpeed);
+        playerCollider.center = Vector3.Lerp(playerCollider.center, new Vector3(0, targetHeight / 2f, 0), Time.deltaTime * crouchTransitionSpeed);
+
+        if (playerCameraTransform != null)
+        {
+            playerCameraTransform.localPosition = Vector3.Lerp(playerCameraTransform.localPosition, targetCameraPos, Time.deltaTime * crouchTransitionSpeed);
+        }
+
+        if (isCrouching && !isSliding)
+        {
+            moveSpeed = Mathf.Lerp(moveSpeed, crouchSpeed, acceleration * Time.deltaTime);
+        }
+    }
+
+    void StartSlide()
+    {
+        isSliding = true;
+        isCrouching = true;
+        slideTimer = slideDuration;
+        rb.AddForce(moveDirection.normalized * slideForce, ForceMode.Force);
+    }
+
+    void HandleSliding()
+    {
+        if (isSliding)
+        {
+            slideTimer -= Time.deltaTime;
+            if (slideTimer <= 0 || !Input.GetKey(crouchKey) || rb.linearVelocity.magnitude < (walkSpeed * 0.8f))
+            {
+                StopSlide();
+            }
+        }
+    }
+
+    void StopSlide()
+    {
+        isSliding = false;
+        if (!Input.GetKey(crouchKey))
+        {
+            isCrouching = false;
         }
     }
 }
